@@ -1,0 +1,1 @@
+GET http:localhost:3000/users/23/lol?limit=20&offset=100
