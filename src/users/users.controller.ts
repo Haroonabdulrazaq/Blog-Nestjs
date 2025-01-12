@@ -16,7 +16,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserParamDto } from './dto/get-users-params.dto';
 import { patchUserDto } from './dto/patch-user.dto';
 import { UsersService } from './providers/users.service';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -26,6 +28,29 @@ export class UsersController {
   }
 
   @Get('/:id?')
+  @ApiOperation({
+    summary: 'Fetch a list of user',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'User fetched successfully!',
+  })
+  @ApiQuery({
+    name: 'limit',
+    description: 'Limit of data per page',
+    type: 'number',
+    example: 10,
+    default: 10,
+    required: false,
+  })
+  @ApiQuery({
+    name: 'page',
+    type: 'number',
+    description: 'Page number',
+    example: 2,
+    default: 1,
+    required: false,
+  })
   public getUserById(
     @Param() getUserParamDto: GetUserParamDto,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
@@ -38,8 +63,6 @@ export class UsersController {
 
   @Post()
   public createUsers(@Body() createUserDto: CreateUserDto) {
-    // console.log('body', email);
-    // console.log('headers', headers);
     console.log('createUserDto', createUserDto instanceof CreateUserDto);
     return `You sent a POST request to create this user Endpoint`;
   }

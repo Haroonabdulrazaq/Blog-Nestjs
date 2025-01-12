@@ -1,0 +1,13 @@
+POST http://localhost:3000/posts
+Content-Type: application/json
+{
+  "title": "First Post",
+  "postType": "story",
+  "slug": "first-post",
+  "status": "draft",
+  "content": "This is my first posts",
+  "schema": "",
+  "featuredImagUrl": "",
+  "publishOn": "Sat Sep 13 275760 00:00:00",
+  "tags": ["typescript", "nestjs"]
+}
