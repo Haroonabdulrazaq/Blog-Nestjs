@@ -1,34 +1,31 @@
 import {
+  IsArray,
   IsEnum,
+  IsISO8601,
+  IsJSON,
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUrl,
   Length,
   Matches,
+  MinLength,
+  ValidateNested,
 } from 'class-validator';
-
-export enum PostType {
-  Post = 'post',
-  Page = 'page',
-  Story = 'story',
-  Series = 'series',
-}
-
-export enum Status {
-  draft = 'draft',
-  scheduled = 'scheduled',
-  review = 'review',
-  published = 'published',
-}
+import { PostType } from '../enums/postType.enum';
+import { Status } from '../enums/status.enum';
+import { CreatePostMetaOptionsDto } from './create-post-meta-options.dto';
+import { Type } from 'class-transformer';
 
 export class CreatePostsDto {
-  @IsNotEmpty()
+  @IsString()
   @Length(3, 96)
+  @IsNotEmpty()
   title: string;
 
-  @IsNotEmpty()
   @IsEnum(PostType)
-  postType: string;
+  @IsNotEmpty()
+  postType: PostType;
 
   @IsString()
   @IsNotEmpty()
@@ -44,19 +41,29 @@ export class CreatePostsDto {
 
   @IsOptional()
   @IsString()
-  content: string;
+  content?: string;
 
   @IsOptional()
-  @IsString()
-  schema: string;
+  @IsJSON()
+  schema?: string;
 
   @IsOptional()
-  @IsString()
-  featuredImagUrl: string;
+  @IsUrl()
+  featuredImagUrl?: string;
 
-  @IsString()
-  publishOn: string;
+  @IsISO8601()
+  publishOn: Date;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @MinLength(3, { each: true })
+  tags?: string[];
 
   @IsNotEmpty()
-  tags: string[];
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreatePostMetaOptionsDto)
+  metaOptions: CreatePostMetaOptionsDto[];
 }
