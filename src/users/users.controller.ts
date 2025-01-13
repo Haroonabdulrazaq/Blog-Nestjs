@@ -22,6 +22,14 @@ import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Post()
+  public async createUsers(@Body() createUserDto: CreateUserDto) {
+    console.log('createUserDto', createUserDto instanceof CreateUserDto);
+    const response = await this.usersService.createUser(createUserDto);
+    return response;
+  }
+
   @Get()
   public getUsers() {
     return 'You sent a GET requests to users Endpoint';
@@ -58,13 +66,7 @@ export class UsersController {
   ) {
     console.log('getUserParamDto', getUserParamDto);
 
-    return this.usersService.findAll(getUserParamDto, limit, page);
-  }
-
-  @Post()
-  public createUsers(@Body() createUserDto: CreateUserDto) {
-    console.log('createUserDto', createUserDto instanceof CreateUserDto);
-    return `You sent a POST request to create this user Endpoint`;
+    return this.usersService.findAll();
   }
 
   @Put()

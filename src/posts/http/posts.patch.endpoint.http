@@ -1,0 +1,20 @@
+PATCH http://localhost:3000/posts
+Content-Type: application/json
+{
+  "id": 1,
+  "title": "First Post",
+  "postType": "story",
+  "slug": "first-post",
+  "status": "draft",
+  "content": "This is my first posts",
+  "schema":  "{\r\n    \"@context\": \"https:\/\/schema.org\",\r\n    \"@type\": \"Person\"\r\n  }",
+  "featuredImagUrl": "http://localhost.com/images/image1.jpg",
+  "publishOn": "2024-03-16T07:46:32+0000",
+  "tags": ["typescript", "nestjs"],
+  "metaOptions": [
+    {
+      "key": "testKey",
+      "value": 20
+    }
+  ]
+}

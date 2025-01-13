@@ -9,8 +9,8 @@ import {
   MinLength,
 } from 'class-validator';
 export class CreateUserDto {
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   @MinLength(3)
   @MaxLength(96)
   firstname: string;
@@ -18,17 +18,17 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   @Length(3, 96)
-  // @MinLength(3)
-  // @MaxLength(96)
-  lastname: string;
+  lastname?: string;
 
-  @IsEmail()
   @IsNotEmpty()
+  @IsEmail()
+  @MaxLength(96)
   email: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   @MinLength(8)
+  @MaxLength(96)
   @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
     message:
       'Minimum of eight characters, at least one letter, one number and one special character',
