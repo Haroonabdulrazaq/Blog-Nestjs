@@ -10,6 +10,8 @@ export class PostsController {
 
   @Post('/')
   public createPosts(@Body() createPostsDto: CreatePostsDto) {
+    console.log(createPostsDto);
+
     return createPostsDto;
   }
 
