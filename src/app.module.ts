@@ -19,7 +19,7 @@ import { User } from './users/entities/user.entity';
         host: 'localhost',
         port: 5432,
         username: 'postgres',
-        password: 'cjw!RUeMC',
+
         database: 'nestjs-blog',
       }),
     }),
