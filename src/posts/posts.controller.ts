@@ -16,7 +16,7 @@ export class PostsController {
   @ApiOperation({ summary: 'Create a new blog post' })
   @Post('/')
   public async createPosts(@Body() createPostsDto: CreatePostDto) {
-    const response = await this.postsService.createPost(createPostsDto);
+    const response = await this.postsService.create(createPostsDto);
     return response;
   }
 

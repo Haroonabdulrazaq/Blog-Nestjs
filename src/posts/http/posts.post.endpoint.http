@@ -1,12 +1,15 @@
 POST http://localhost:3000/posts
 Content-Type: application/json
 {
-  "title": "First Post",
+  "title": "Third Post",
   "postType": "story",
-  "slug": "first-post",
+  "slug": "third-post",
   "status": "draft",
-  "content": "This is my first posts",
+  "content": "This is my third posts",
   "schema":  "{\r\n    \"@context\": \"https:\/\/schema.org\",\r\n    \"@type\": \"Person\"\r\n  }",
   "featuredImagUrl": "http://localhost.com/images/image1.jpg",
-  "publishOn": "2024-03-16T07:46:32+0000"
+  "publishOn": "2024-03-16T07:46:32+0000",
+  "metaOptions": {
+    "metaValue": "{\"IsBlacklistUserEnabled\": false, \"IsUserNotActive\": true}"
+  }
 }

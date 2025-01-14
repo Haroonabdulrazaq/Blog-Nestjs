@@ -10,12 +10,15 @@ import {
   Length,
   Matches,
   MaxLength,
+  ValidateNested,
   // MinLength,
   // ValidateNested,
 } from 'class-validator';
 import { PostType } from '../enums/postType.enum';
 import { Status } from '../enums/status.enum';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { CreatePostMetaOptionsDto } from 'src/meta-options/dto/create-post-meta-options.dto';
+import { Type } from 'class-transformer';
 
 export class CreatePostDto {
   @ApiProperty({
@@ -91,4 +94,22 @@ export class CreatePostDto {
   })
   @IsISO8601()
   publishOn: Date;
+
+  @ApiPropertyOptional({
+    required: false,
+    items: {
+      type: 'object',
+      properties: {
+        metaValue: {
+          type: 'json',
+          description: 'The metaValue is a JSON string',
+          example: '{"sideBarEnabled": true}',
+        },
+      },
+    },
+  })
+  @ValidateNested({ each: true })
+  @IsOptional()
+  @Type(() => CreatePostMetaOptionsDto)
+  metaOptions?: CreatePostMetaOptionsDto | null;
 }
