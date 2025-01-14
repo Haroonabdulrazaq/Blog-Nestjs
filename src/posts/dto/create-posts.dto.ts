@@ -1,5 +1,5 @@
 import {
-  IsArray,
+  // IsArray,
   IsEnum,
   IsISO8601,
   IsJSON,
@@ -9,22 +9,21 @@ import {
   IsUrl,
   Length,
   Matches,
-  MinLength,
-  ValidateNested,
+  MaxLength,
+  // MinLength,
+  // ValidateNested,
 } from 'class-validator';
 import { PostType } from '../enums/postType.enum';
 import { Status } from '../enums/status.enum';
-import { CreatePostMetaOptionsDto } from './create-post-meta-options.dto';
-import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class CreatePostsDto {
+export class CreatePostDto {
   @ApiProperty({
     description: 'This is the Post title',
     example: 'First title',
   })
   @IsString()
-  @Length(3, 96)
+  @Length(3, 512)
   @IsNotEmpty()
   title: string;
 
@@ -43,6 +42,7 @@ export class CreatePostsDto {
   })
   @IsString()
   @IsNotEmpty()
+  @MaxLength(256)
   @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
     message:
       'A slug should be all small letters and uses only "-" and without spaces. For example "my-url"',
@@ -56,7 +56,7 @@ export class CreatePostsDto {
   })
   @IsNotEmpty()
   @IsEnum(Status)
-  status: string;
+  status: Status;
 
   @ApiPropertyOptional({
     description: 'This is the post content',
@@ -80,6 +80,7 @@ export class CreatePostsDto {
     description: 'Featured image for your blog post',
     example: 'http://localhost.com/images/image1.jpg',
   })
+  @MaxLength(1024)
   @IsOptional()
   @IsUrl()
   featuredImagUrl?: string;
@@ -90,41 +91,4 @@ export class CreatePostsDto {
   })
   @IsISO8601()
   publishOn: Date;
-
-  @ApiPropertyOptional({
-    description: 'An Array of tags passed as string values',
-    example: ['Typescript', 'NestJS'],
-  })
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  @MinLength(3, { each: true })
-  tags?: string[];
-
-  @ApiPropertyOptional({
-    type: 'array',
-    required: false,
-    items: {
-      type: 'object',
-      properties: {
-        key: {
-          type: 'string',
-          description: 'The can be an identifier for your meta option',
-          example: 'sideBarEnabled',
-        },
-        value: {
-          type: 'any',
-          description: 'The value can be of any type',
-          example: true,
-        },
-      },
-    },
-    description: '',
-  })
-  @IsNotEmpty()
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CreatePostMetaOptionsDto)
-  metaOptions?: CreatePostMetaOptionsDto[];
 }
