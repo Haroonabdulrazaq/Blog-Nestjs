@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/providers/users.service';
 import { Repository } from 'typeorm';
@@ -13,23 +13,12 @@ export class PostsService {
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
     @InjectRepository(MetaOption)
-    private metaOptionsRepository: Repository<MetaOption>,
+    private metaOptionRepository: Repository<MetaOption>,
   ) {}
 
   public async create(createPostDto: CreatePostDto) {
-    // Create MetaOptions
-    const metaOptions = createPostDto.metaOptions
-      ? this.metaOptionsRepository.create(createPostDto.metaOptions)
-      : null;
-
-    if (metaOptions) {
-      await this.metaOptionsRepository.save(metaOptions);
-    }
     // Create Post
     const newPost = this.postRepository.create(createPostDto);
-    if (metaOptions) {
-      newPost.metaOptions = metaOptions;
-    }
 
     // Return Post to client
     const response = await this.postRepository.save(newPost);
@@ -37,21 +26,20 @@ export class PostsService {
     return response;
   }
 
-  public findAll(userId: string) {
-    const user = this.userService.findOneById(userId);
-    if (!user) throw new NotFoundException();
-    const { firstName } = user;
-    return [
-      {
-        title: 'Test title',
-        content: 'Test content',
-        author: firstName,
-      },
-      {
-        title: 'Test title 2',
-        content: 'Test content 2',
-        author: firstName,
-      },
-    ];
+  public findAll() {
+    const posts = this.postRepository.find();
+    return posts;
+  }
+
+  public async delete(id: number) {
+    // Delete the post
+    await this.postRepository.delete(id);
+
+    return { deleted: true, id };
   }
 }
+
+// Note: Foriegn Key will stop us from deleteing an Object until we have delete all the objects it reference
+// Check - Udemy
+// NestJS Masterclass - NodeJS Framework Backend Development
+//  Video 85 Cascade Delete Bi-directional Relationship

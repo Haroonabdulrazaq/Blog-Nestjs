@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { PostType } from '../enums/postType.enum';
 import { Status } from '../enums/status.enum';
 import { MetaOption } from 'src/meta-options/entities/meta-option.entity';
@@ -71,14 +65,10 @@ export class Post {
   })
   publishOn?: Date;
 
-  @OneToOne(() => MetaOption)
-  @JoinColumn()
+  // The second argument of OneToTone, is use to specify the Bi-drectional relationship
+  @OneToOne(() => MetaOption, (metaOptions) => metaOptions.post, {
+    cascade: ['remove', 'insert'],
+    eager: true,
+  })
   metaOptions?: MetaOption;
-
-  // @Column({
-
-  // })
-  // tags?: string[];
-
-  // @Column()
 }
