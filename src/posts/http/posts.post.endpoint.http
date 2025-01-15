@@ -11,5 +11,6 @@ Content-Type: application/json
   "publishOn": "2024-03-16T07:46:32+0000",
   "metaOptions": {
     "metaValue": "{\"IsBlacklistUserEnabled\": false, \"IsUserNotActive\": true}"
-  }
+  },
+  "authorId": 1
 }

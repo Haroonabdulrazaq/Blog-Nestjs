@@ -4,7 +4,6 @@ import { UsersService } from 'src/users/providers/users.service';
 import { Repository } from 'typeorm';
 import { Post } from '../entities/post.entity';
 import { CreatePostDto } from '../dto/create-posts.dto';
-import { MetaOption } from 'src/meta-options/entities/meta-option.entity';
 
 @Injectable()
 export class PostsService {
@@ -12,15 +11,15 @@ export class PostsService {
     private readonly userService: UsersService,
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
-    @InjectRepository(MetaOption)
-    private metaOptionRepository: Repository<MetaOption>,
   ) {}
 
   public async create(createPostDto: CreatePostDto) {
+    // Find author from DB based on authorId
+    const author = await this.userService.findOneById(createPostDto.authorId);
     // Create Post
-    const newPost = this.postRepository.create(createPostDto);
-
+    const newPost = this.postRepository.create({ ...createPostDto, author });
     // Return Post to client
+
     const response = await this.postRepository.save(newPost);
 
     return response;

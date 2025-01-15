@@ -25,12 +25,7 @@ export class UsersService {
     return 'All users';
   }
 
-  public findOneById(id: string) {
-    return {
-      id,
-      firstName: 'Alex',
-      lastName: 'Wallace',
-      email: 'Alexwallace@mail.com',
-    };
+  public async findOneById(id: number) {
+    return this.usersRepository.findOneBy({ id });
   }
 }
