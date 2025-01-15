@@ -49,7 +49,9 @@ export class Tag {
   })
   featuredImageUrl?: string;
 
-  @ManyToMany(() => Post, (posts) => posts.tags)
+  @ManyToMany(() => Post, (posts) => posts.tags, {
+    onDelete: 'CASCADE', // We need to specify CASCADE because of FK_contraint, also because Tag doesn't own the JoinTable post does
+  })
   posts: Post[];
 
   @CreateDateColumn()

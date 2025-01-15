@@ -22,4 +22,22 @@ export class TagsService {
     });
     return result;
   }
+
+  public async delete(id: number) {
+    await this.tagRepository.delete(id);
+
+    return {
+      deleted: true,
+      id,
+    };
+  }
+
+  public async softDelete(id: number) {
+    await this.tagRepository.softDelete(id);
+
+    return {
+      deleted: true,
+      id,
+    };
+  }
 }
