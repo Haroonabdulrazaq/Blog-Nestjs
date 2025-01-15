@@ -1,13 +1,14 @@
 PATCH http://localhost:3000/posts
 Content-Type: application/json
 {
-  "id": 1,
-  "title": "Second Post",
-  "postType": "story",
-  "slug": "second-post",
-  "status": "draft",
+  "id": 9,
+  "title": "Updated Post",
+  "postType": "series",
+  "slug": "an-updated-post",
+  "status": "published",
   "content": "This is my second posts",
   "schema":  "{\r\n    \"@context\": \"https:\/\/schema.org\",\r\n    \"@type\": \"Person\"\r\n  }",
   "featuredImagUrl": "http://localhost.com/images/image1.jpg",
-  "publishOn": "2024-03-16T07:46:32+0000"
+  "publishOn": "2024-03-16T07:46:32+0000",
+  "tags": [1,2]
 }

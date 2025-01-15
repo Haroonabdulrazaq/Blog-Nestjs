@@ -1,4 +1,5 @@
 import {
+  IsArray,
   // IsArray,
   IsEnum,
   IsInt,
@@ -95,6 +96,15 @@ export class CreatePostDto {
   })
   @IsISO8601()
   publishOn: Date;
+
+  @ApiPropertyOptional({
+    description: 'Array of ids of tags passed as integers in an array',
+    example: [1, 2],
+  })
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  tags?: number[];
 
   @ApiPropertyOptional({
     required: false,

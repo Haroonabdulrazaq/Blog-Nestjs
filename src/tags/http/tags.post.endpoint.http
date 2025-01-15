@@ -1,0 +1,9 @@
+POST http://localhost:3000/tags
+Content-Type: application/json
+{
+  "name": "JavaScript",
+  "slug": "javascript-tag",
+  "description": "This is a description for javascript tag",
+  "schema": "{\"DarkThemeEnabled\": false, \"footerActive\": true}",
+  "featuredImageUrl": "http://localhost.com/images/image1.jpg"
+}

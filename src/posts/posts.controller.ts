@@ -41,7 +41,7 @@ export class PostsController {
   @ApiOperation({ summary: 'Update an existing blog post' })
   @Patch()
   public updatePost(@Body() patchPostsDto: PatchPostsDto) {
-    console.log(patchPostsDto);
+    return this.postsService.update(patchPostsDto);
   }
 
   @ApiResponse({

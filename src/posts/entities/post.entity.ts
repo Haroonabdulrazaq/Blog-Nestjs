@@ -1,6 +1,8 @@
 import {
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -9,6 +11,7 @@ import { PostType } from '../enums/postType.enum';
 import { Status } from '../enums/status.enum';
 import { MetaOption } from 'src/meta-options/entities/meta-option.entity';
 import { User } from 'src/users/entities/user.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
 // import { CreatePostMetaOptionsDto } from '../dto/create-post-meta-options.dto';
 
 @Entity('posts')
@@ -75,12 +78,13 @@ export class Post {
   // The second argument of OneToTone, is use to specify the Bi-drectional relationship
   @OneToOne(() => MetaOption, (metaOptions) => metaOptions.post, {
     cascade: ['remove', 'insert'],
-    eager: true,
   })
   metaOptions?: MetaOption;
 
-  @ManyToOne(() => User, (user) => user.posts, {
-    eager: true,
-  })
+  @ManyToOne(() => User, (user) => user.posts)
   author: User;
+
+  @ManyToMany(() => Tag, (tags) => tags.posts)
+  @JoinTable()
+  tags?: Tag[];
 }
