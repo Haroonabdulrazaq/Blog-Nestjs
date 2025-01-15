@@ -32,7 +32,7 @@ export class UsersController {
 
   @Get()
   public getUsers() {
-    return 'You sent a GET requests to users Endpoint';
+    return this.usersService.findAll();
   }
 
   @Get('/:id?')
