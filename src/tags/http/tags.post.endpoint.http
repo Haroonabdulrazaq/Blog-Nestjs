@@ -1,8 +1,8 @@
 POST http://localhost:3000/tags
 Content-Type: application/json
 {
-  "name": "CSS-3",
-  "slug": "css-3-tag",
+  "name": "Grid System-CSS",
+  "slug": "grid-system-css",
   "description": "This is a description for tpescript tag",
   "schema": "{\"DarkThemeEnabled\": false, \"footerActive\": true}",
   "featuredImageUrl": "http://localhost.com/images/image1.jpg"
