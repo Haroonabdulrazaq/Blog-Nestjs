@@ -1,14 +1,16 @@
 version: 2.1
-jobs:
-  build:
-    docker:
-      - image: alpine:3.15
-    steps:
-      - run:
-          name: The First Step
-          command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
+  jobs:
+    build:
+      docker:
+        - image: alpine:3.15
+      steps:
+        - run:
+            name: The second Job
+            command: |
+            echo  'Hello CI/CD'
+            echo  'I will be successful'
+
+      
 
 # # This config was automatically generated from your source code
 
