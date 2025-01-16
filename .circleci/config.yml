@@ -5,12 +5,22 @@ jobs:
       - image: alpine:3.15
     steps:
       - run:
-          name: The Second Job
+          name: The First Step
           command: |
-          echo 'Hello World!'
-          echo 'I will be successful'
+            echo 'Hello World!'
+            echo 'This is the delivery pipeline'
 
-      
+# version: 2.1
+# jobs:
+#   build:
+#     docker:
+#       - image: alpine:3.15
+#     steps:
+#       - run:
+#           name: The Second Job
+#           command: |
+#           echo 'Hello World!'
+#           echo 'I will be successful'
 
 # # This config was automatically generated from your source code
 
