@@ -1,6 +1,8 @@
 import {
   BadRequestException,
   Body,
+  HttpException,
+  HttpStatus,
   Injectable,
   NotFoundException,
   RequestTimeoutException,
@@ -54,7 +56,16 @@ export class UsersService {
   }
 
   public findAll() {
-    return 'All users';
+    throw new HttpException(
+      {
+        status: HttpStatus.MOVED_PERMANENTLY,
+        error: 'This service has been permanently moved!',
+      },
+      HttpStatus.MOVED_PERMANENTLY,
+      {
+        description: 'error',
+      },
+    );
   }
 
   public async findOneById(id: number) {
