@@ -7,8 +7,9 @@ jobs:
       - run:
           name: The Second Job
           command: |
-          echo 'Hello CI/CD'
+          echo 'Hello World!'
           echo 'I will be successful'
+
       
 
 # # This config was automatically generated from your source code
