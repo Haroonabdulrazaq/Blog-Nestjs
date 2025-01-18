@@ -2,13 +2,19 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: alpine:3.15
+      - image: cimg/base:2021.04
     steps:
+      - checkout
       - run:
-          name: The Second Job
+          name: The First Job
           command: |
             echo 'Hello World!'
             echo 'I will be successful'
+      - run:
+          name: The Second Job
+          command: |
+            ls -al
+            echo '^^^The files in your repo^^^'
 
 # version: 2.1
 # jobs:
