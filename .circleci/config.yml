@@ -31,13 +31,13 @@ jobs:
           command: |
             node -v
   Now-Complete:
-  docker:
-    - image: alpine:3.15
-  steps:
-    - run:
-        name: Approval Complete
-        command: |
-          echo 'The work is now complete.'
+    docker:
+      - image: alpine:3.15
+    steps:
+      - run:
+          name: Approval Complete
+          command: |
+            echo 'The work is now complete.'
 
 workflows:
   Example-Workflow:
