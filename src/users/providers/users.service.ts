@@ -12,6 +12,8 @@ import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ConfigService } from '@nestjs/config';
+import { UsersCreateManyProvider } from './users-create-many.provider';
+import { CreateManyUserDto } from '../dto/create-many-users.dto';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +21,7 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private readonly configService: ConfigService,
+    private readonly usersCreateManyProvider: UsersCreateManyProvider,
   ) {}
 
   public async createUser(@Body() createUserDto: CreateUserDto) {
@@ -86,5 +89,9 @@ export class UsersService {
       });
     }
     return user;
+  }
+
+  public async createMany(createManyUserDto: CreateManyUserDto) {
+    return await this.usersCreateManyProvider.createMany(createManyUserDto);
   }
 }
