@@ -38,6 +38,7 @@ jobs:
         name: Approval Complete
         command: |
           echo 'The work is now complete.'
+
 workflows:
   Example-Workflow:
     jobs:
