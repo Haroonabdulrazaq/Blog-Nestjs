@@ -6,17 +6,31 @@ import {
   Param,
   Patch,
   Post,
-  // Query,
+  Query,
 } from '@nestjs/common';
 import { PostsService } from './providers/posts.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './dto/create-posts.dto';
 import { PatchPostsDto } from './dto/patch-posts.dto';
+import { GetPostsDto } from './dto/get-posts.dto';
 
 @ApiTags('Posts')
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
+
+  @Get('/:userId?')
+  public getPosts(
+    @Param('userId') userId: string,
+    @Query() postQuery: GetPostsDto,
+  ) {
+    console.log('************************');
+    console.log(userId);
+    console.log(postQuery);
+    console.log('************************');
+
+    return this.postsService.findAll(postQuery, userId);
+  }
 
   @ApiResponse({
     status: 201,
@@ -29,10 +43,10 @@ export class PostsController {
     return response;
   }
 
-  @Get()
-  public getPost() {
-    return this.postsService.findAll();
-  }
+  // @Get()
+  // public getPost() {
+  //   return this.postsService.findAll();
+  // }
 
   @ApiResponse({
     status: 200,

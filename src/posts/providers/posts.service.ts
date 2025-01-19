@@ -10,11 +10,15 @@ import { Post } from '../entities/post.entity';
 import { CreatePostDto } from '../dto/create-posts.dto';
 import { TagsService } from 'src/tags/providers/tags.service';
 import { PatchPostsDto } from '../dto/patch-posts.dto';
+import { GetPostsDto } from '../dto/get-posts.dto';
+import { PaginationProvider } from 'src/common/pagination/pagination.provider';
+import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
 
 @Injectable()
 export class PostsService {
   constructor(
     private readonly userService: UsersService,
+    private readonly paginationProvider: PaginationProvider,
     private readonly tagsService: TagsService,
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
@@ -37,10 +41,20 @@ export class PostsService {
     return response;
   }
 
-  public findAll() {
-    const posts = this.postRepository.find({
-      relations: ['metaOptions', 'author', 'tags'],
-    });
+  public findAll(
+    postQuery: GetPostsDto,
+    userId: string,
+  ): Promise<Paginated<Post>> {
+    console.log(userId);
+
+    const posts = this.paginationProvider.paginateQuery(
+      {
+        limit: postQuery.limit,
+        page: postQuery.page,
+      },
+      this.postRepository,
+    );
+
     return posts;
   }
 
