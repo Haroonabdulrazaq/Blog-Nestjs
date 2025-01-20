@@ -49,11 +49,11 @@ workflows:
       - Using-Node:
           requires:
             - Fetch-Code
-      - Hold-for-Approval:
-          type: approval
-          requires:
-            - Using-Node
-            - Fetch-Code
-      - Now-Complete:
-          requires:
-            - Hold-for-Approval
+      # - Hold-for-Approval:
+      #     type: approval
+      #     requires:
+      #       - Using-Node
+      #       - Fetch-Code
+      - Now-Complete
+        # requires:
+        #   - Hold-for-Approval

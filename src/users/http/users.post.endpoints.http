@@ -1,10 +1,10 @@
 POST http:localhost:3000/users
 Content-Type: application/json
 {
-  "firstname": "john",
-  "lastname": "doe",
-  "email": "johnDoe@mail.com",
-  "password": "Yadayada1@#"
+  "firstname": "Mark",
+  "lastname": "Melly",
+  "email": "Melly@mail.com",
+  "password": "Test123$"
 }
 
 POST http:localhost:3000/users/create-many
@@ -15,13 +15,13 @@ Content-Type: application/json
     "firstname": "gregy",
     "lastname": "whoy",
     "email": "gregy@mail.com",
-    "password": "Yadayada1@#"
+    "password": 
   },
   {
     "firstname": "Alexy",
     "lastname": "Conney",
     "email": "Alexy@mail.com",
-    "password": "Yadayada1@#"
+    "password": 
   }
   ]
 }
