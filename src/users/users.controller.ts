@@ -11,6 +11,7 @@ import {
   Put,
   Query,
   DefaultValuePipe,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserParamDto } from './dto/get-users-params.dto';
