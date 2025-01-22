@@ -3,7 +3,6 @@ import {
   // IsArray,
   IsEnum,
   IsInt,
-  IsISO8601,
   IsJSON,
   IsNotEmpty,
   IsOptional,
@@ -94,7 +93,6 @@ export class CreatePostDto {
     description: 'This is the post published date',
     example: '2024-03-16T07:46:32+0000',
   })
-  @IsISO8601()
   publishOn: Date;
 
   @ApiPropertyOptional({
@@ -123,14 +121,4 @@ export class CreatePostDto {
   @IsOptional()
   @Type(() => CreatePostMetaOptionsDto)
   metaOptions?: CreatePostMetaOptionsDto | null;
-
-  @ApiProperty({
-    type: 'integer',
-    description: 'The user who created the post',
-    required: true,
-    example: 1,
-  })
-  @IsNotEmpty()
-  @IsInt()
-  authorId: number;
 }

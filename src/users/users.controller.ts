@@ -12,6 +12,7 @@ import {
   Query,
   DefaultValuePipe,
   UseGuards,
+  SetMetadata,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserParamDto } from './dto/get-users-params.dto';
@@ -19,6 +20,8 @@ import { patchUserDto } from './dto/patch-user.dto';
 import { UsersService } from './providers/users.service';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateManyUserDto } from './dto/create-many-users.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { AuthType } from 'src/auth/enums/auth-type';
 
 @ApiTags('Users')
 @Controller('users')
@@ -26,6 +29,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  // @SetMetadata('authType', 'none')
+  @Auth([AuthType.Bearer])
   public async createUsers(@Body() createUserDto: CreateUserDto) {
     const response = await this.usersService.createUser(createUserDto);
     return response;
