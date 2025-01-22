@@ -8,9 +8,7 @@ import {
 import { UsersService } from 'src/users/providers/users.service';
 import { SignInDto } from '../dto/signin.dto';
 import { HashingProvider } from './hashing.provider';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigType } from '@nestjs/config';
-import jwtConfig from '../config/jwt.config';
+import { GenerateTokensProvider } from './generate-tokens.provider';
 
 @Injectable()
 export class AuthService {
@@ -18,10 +16,7 @@ export class AuthService {
     @Inject(forwardRef(() => UsersService))
     private readonly userService: UsersService,
     private readonly hashingProvider: HashingProvider,
-    private readonly jwtService: JwtService,
-
-    @Inject(jwtConfig.KEY)
-    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+    private readonly generateTokensProvider: GenerateTokensProvider,
   ) {}
 
   public async signIn(signInDto: SignInDto) {
@@ -45,20 +40,7 @@ export class AuthService {
       throw new BadRequestException('Invalid Email or Password');
     }
 
-    const accessToken = await this.jwtService.signAsync(
-      {
-        sub: user.id,
-        email: user.email,
-      },
-      {
-        audience: this.jwtConfiguration.audience,
-        secret: this.jwtConfiguration.secret,
-        issuer: this.jwtConfiguration.issuer,
-        expiresIn: this.jwtConfiguration.accessTokenTtl,
-      },
-    );
-
-    return { accessToken };
+    return await this.generateTokensProvider.generateTokens(user);
   }
 
   public isAuth() {
