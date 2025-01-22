@@ -9,6 +9,8 @@ import { UsersService } from 'src/users/providers/users.service';
 import { SignInDto } from '../dto/signin.dto';
 import { HashingProvider } from './hashing.provider';
 import { GenerateTokensProvider } from './generate-tokens.provider';
+import { RefreshTokenDto } from '../dto/refresh-token.dto';
+import { RefreshTokensProvider } from './refresh-tokens.provider';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,7 @@ export class AuthService {
     private readonly userService: UsersService,
     private readonly hashingProvider: HashingProvider,
     private readonly generateTokensProvider: GenerateTokensProvider,
+    private readonly refreshTokensProvider: RefreshTokensProvider,
   ) {}
 
   public async signIn(signInDto: SignInDto) {
@@ -43,7 +46,7 @@ export class AuthService {
     return await this.generateTokensProvider.generateTokens(user);
   }
 
-  public isAuth() {
-    return true;
+  public async refreshTokens(refreshTokenDto: RefreshTokenDto) {
+    return await this.refreshTokensProvider.refreshTokens(refreshTokenDto);
   }
 }
