@@ -4,7 +4,7 @@
 
 POST http://localhost:3000/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJlbWFpbCI6Ik1lbGx5QG1haWwuY29tIiwiaWF0IjoxNzM3NDk2MTEwLCJleHAiOjE3Mzc0OTk3MTAsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.QTZt9s53ThNMWGDihFd_H3GLPkseK9km3CTT_Oz6nYM
+Authorization: Bearer
 
 {
   "title": "What's new with NestJS",

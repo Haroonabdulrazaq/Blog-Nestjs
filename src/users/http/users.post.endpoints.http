@@ -1,6 +1,6 @@
 POST http:localhost:3000/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJlbWFpbCI6Ik1lbGx5QG1haWwuY29tIiwiaWF0IjoxNzM3NDc5MDE1LCJleHAiOjE3Mzc0ODI2MTUsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.2Jwx_4e1nkM54Pj6xy-mPGWkZLVH0eOr3ND8N9PmX_4
+Authorization: Bearer
 
 {
   "firstname": "Mark",
@@ -11,7 +11,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJlbWFpb
 
 POST http:localhost:3000/users/create-many
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJlbWFpbCI6Ik1lbGx5QG1haWwuY29tIiwiaWF0IjoxNzM3NDU3MzY2LCJleHAiOjE3Mzc0NjA5NjYsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.xtFvSx-CEasrJCktey5SyvXbcIWCG9cbL8TRJnTjEt4
+Authorization: Bearer
 {
   "users": [
   {
