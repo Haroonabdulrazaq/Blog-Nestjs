@@ -1,0 +1,7 @@
+POST http://localhost:3000/auth/sign-in
+Content-Type: application/json
+Authorization: Bearer 
+{
+  "email": "Melly@mail.com",
+  "password": "Test123$"
+}

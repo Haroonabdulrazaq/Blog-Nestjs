@@ -1,8 +1,30 @@
 POST http:localhost:3000/users
 Content-Type: application/json
+Authorization: Bearer
+
 {
-  "firstname": "john",
-  "lastname": "doe",
-  "email": "johndoe@mail.com",
+  "firstname": "Mark",
+  "lastname": "Melly",
+  "email": "Melly@mail.com",
   "password": ""
+}
+
+POST http:localhost:3000/users/create-many
+Content-Type: application/json
+Authorization: Bearer
+{
+  "users": [
+  {
+    "firstname": "gregy",
+    "lastname": "whoy",
+    "email": "gregy+1@mail.com",
+    "password": ""
+  },
+  {
+    "firstname": "Alexy",
+    "lastname": "Conney",
+    "email": "Alexy+1@mail.com",
+    "password": ""
+  }
+  ]
 }

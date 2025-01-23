@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/providers/users.service';
 import { Repository } from 'typeorm';
@@ -6,46 +10,78 @@ import { Post } from '../entities/post.entity';
 import { CreatePostDto } from '../dto/create-posts.dto';
 import { TagsService } from 'src/tags/providers/tags.service';
 import { PatchPostsDto } from '../dto/patch-posts.dto';
+import { GetPostsDto } from '../dto/get-posts.dto';
+import { PaginationProvider } from 'src/common/pagination/pagination.provider';
+import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
+import { ActiveUserData } from 'src/auth/interfaces/active-user-data-interface';
+import { CreatePostProvider } from './create-post.provider';
 
 @Injectable()
 export class PostsService {
   constructor(
     private readonly userService: UsersService,
+    private readonly paginationProvider: PaginationProvider,
     private readonly tagsService: TagsService,
+    private readonly createPostProvider: CreatePostProvider,
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
   ) {}
 
-  public async create(createPostDto: CreatePostDto) {
-    // Find author from DB based on authorId
-    const author = await this.userService.findOneById(createPostDto.authorId);
-    const tags = await this.tagsService.findMultipleTagById(createPostDto.tags);
-    // Create Post
-    const newPost = this.postRepository.create({
-      ...createPostDto,
-      author,
-      tags,
-    });
-    // Return Post to client
-
-    const response = await this.postRepository.save(newPost);
-
-    return response;
+  public async create(createPostDto: CreatePostDto, user: ActiveUserData) {
+    return this.createPostProvider.create(createPostDto, user);
   }
 
-  public findAll() {
-    const posts = this.postRepository.find({
-      relations: ['metaOptions', 'author', 'tags'],
-    });
+  public findAll(
+    postQuery: GetPostsDto,
+    userId: string,
+  ): Promise<Paginated<Post>> {
+    console.log(userId);
+
+    const posts = this.paginationProvider.paginateQuery(
+      {
+        limit: postQuery.limit,
+        page: postQuery.page,
+      },
+      this.postRepository,
+    );
+
     return posts;
   }
 
   public async update(patchPostDto: PatchPostsDto) {
-    const tags = await this.tagsService.findMultipleTagById(patchPostDto.tags);
-    if (!tags) console.log('Handle exception here');
-    const post = await this.postRepository.findOneBy({
-      id: patchPostDto.id,
-    });
+    let tags = undefined;
+    try {
+      tags = await this.tagsService.findMultipleTagById(patchPostDto.tags);
+    } catch (error) {
+      throw new RequestTimeoutException('Request timed out, Try again later', {
+        description: 'unable to find tags in DB',
+        cause: error,
+      });
+    }
+    if (!tags || tags.length !== patchPostDto.tags.length) {
+      throw new BadRequestException(
+        'Please check your tag Ids and nesure they are correct',
+      );
+    }
+
+    //Post
+    let post = undefined;
+    try {
+      post = await this.postRepository.findOneBy({
+        id: patchPostDto.id,
+      });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment, please try again',
+        {
+          description: `Error connecting to the DB, ${error}`,
+        },
+      );
+    }
+
+    if (!post) {
+      throw new BadRequestException('Invalid post id');
+    }
 
     post.title = patchPostDto.title ?? post.title;
     post.content = patchPostDto.content ?? post.content;
@@ -57,7 +93,19 @@ export class PostsService {
     // Update the tags
     post.tags = tags;
 
-    return await this.postRepository.save(post);
+    let newPost;
+    try {
+      newPost = await this.postRepository.save(post);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment, please try again',
+        {
+          description: `Error connecting to the DB, ${error}`,
+        },
+      );
+    }
+
+    return newPost;
   }
 
   public async delete(id: number) {

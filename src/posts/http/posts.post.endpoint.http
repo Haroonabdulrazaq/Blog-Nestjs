@@ -1,17 +1,21 @@
+{{
+  exports.publishOn = new Date().toString();
+}}
+
 POST http://localhost:3000/posts
 Content-Type: application/json
+Authorization: Bearer
+
 {
-  "title": "This is an article6",
-  "postType": "story",
-  "slug": "here-is-another-post-6",
+  "title": "What's new with NestJS",
+  "postType": "post",
+  "slug": "new-with-nestjs-5",
   "status": "draft",
-  "content": "This is my another posts",
-  "schema":  "{ \"@context\": \"https:\/\/schema.org\",    \"@type\": \"Person\"  }",
+  "content": "test content",
+  "schema": "{\r\n \"@context\": \"https:\/\/schema.org\",\r\n \"@type\": \"Person\"\r\n }",
   "featuredImagUrl": "http://localhost.com/images/image1.jpg",
-  "publishOn": "2024-03-16T07:46:32+0000",
-  "metaOptions": {
-    "metaValue": "{\"IsBlacklistUserEnabled\": false, \"IsUserNotActive\": true}"
-  },
-  "authorId": 1,
-  "tags": [1,8,2]
+  "metaOptions" : {
+      "metaValue": "{\"sidebarEnabled\": true, \"footerActive\":true}"
+    },
+  "tags": [1,2]
 }
