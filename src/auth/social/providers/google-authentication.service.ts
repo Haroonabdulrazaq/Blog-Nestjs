@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   forwardRef,
   Inject,
   Injectable,
@@ -32,31 +31,39 @@ export class GoogleAuthenticationService implements OnModuleInit {
   }
 
   public async authenticate(googleTokenDto: GoogleTokenDto) {
-    // verify the Google Token
-    const loginTicket = await this.oauthClient.verifyIdToken({
-      idToken: googleTokenDto.token,
-    });
+    try {
+      // verify the Google Token
+      const loginTicket = await this.oauthClient.verifyIdToken({
+        idToken: googleTokenDto.token,
+      });
 
-    // Extract the user payload from Google JWT
-    const {
-      email,
-      sub: googleId,
-      given_name: firstname,
-      family_name: lastname,
-    } = loginTicket.getPayload();
-    console.log(firstname, lastname);
-    // Find the user in the database using Google Id
-    const user = await this.usersService.findOneByGoogleId(googleId);
-    // if googleId exist generate token
-    if (!user) {
-      throw new BadRequestException(`User ${email} doesn't not exist`);
+      // Extract the user payload from Google JWT
+      const {
+        email,
+        sub: googleId,
+        given_name: firstname,
+        family_name: lastname,
+      } = loginTicket.getPayload();
+      console.log(firstname, lastname);
+      // Find the user in the database using Google Id
+      const user = await this.usersService.findOneByGoogleId(googleId);
+      // if googleId exist generate token
+      if (user) {
+        return await this.generateTokensProvider.generateTokens(user);
+      } else {
+        // If not create a new user and generate the tokens
+        const newUser = await this.usersService.createGoogleUser({
+          email: email,
+          firstname: firstname,
+          lastname: lastname,
+          googleId: googleId,
+        });
+        return await this.generateTokensProvider.generateTokens(newUser);
+      }
+      // if not generate a new user and then generate token
+      // throw unAuthorised if any of the steps fails
+    } catch (error) {
+      throw new UnauthorizedException(error);
     }
-    const token = this.generateTokensProvider.generateTokens(user);
-    // if not generate a new user and then generate token
-    // throw unAuthorised if any of the steps fails
-    if (!token) {
-      throw new UnauthorizedException('request is unauthorized');
-    }
-    return { token, email };
   }
 }

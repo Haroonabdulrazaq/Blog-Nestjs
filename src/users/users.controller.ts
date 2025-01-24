@@ -29,7 +29,6 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  // @SetMetadata('authType', 'none')
   @Auth([AuthType.Bearer])
   public async createUsers(@Body() createUserDto: CreateUserDto) {
     const response = await this.usersService.createUser(createUserDto);
