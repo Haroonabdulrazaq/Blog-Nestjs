@@ -13,6 +13,8 @@ import {
   DefaultValuePipe,
   UseGuards,
   SetMetadata,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserParamDto } from './dto/get-users-params.dto';
@@ -30,6 +32,7 @@ export class UsersController {
 
   @Post()
   @Auth([AuthType.Bearer])
+  @UseInterceptors(ClassSerializerInterceptor)
   public async createUsers(@Body() createUserDto: CreateUserDto) {
     const response = await this.usersService.createUser(createUserDto);
     return response;
