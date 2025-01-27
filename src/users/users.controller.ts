@@ -31,7 +31,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Auth([AuthType.Bearer])
+  @Auth([AuthType.None])
   @UseInterceptors(ClassSerializerInterceptor)
   public async createUsers(@Body() createUserDto: CreateUserDto) {
     const response = await this.usersService.createUser(createUserDto);
