@@ -26,7 +26,7 @@ export class UsersService {
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
-    return this.createUserProvider.createUser(createUserDto);
+    return await this.createUserProvider.createUser(createUserDto);
   }
 
   public findAll() {
