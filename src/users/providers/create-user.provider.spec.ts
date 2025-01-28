@@ -23,7 +23,7 @@ describe('createUserProvider', () => {
     firstname: 'john',
     lastname: 'Doe',
     email: 'doe@mail.com',
-    password: 'Test123$',
+    password: '',
   };
 
   beforeEach(async () => {

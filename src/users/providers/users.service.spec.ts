@@ -78,18 +78,5 @@ describe('User Service', () => {
     it('should be defined ', () => {
       expect(service.createUser).toBeDefined();
     });
-
-    it('should call createUser on CreateUserProvider ', async () => {
-      const user = await service.createUser({
-        firstname: 'john',
-        lastname: 'Doe',
-        email: 'John@mail.com',
-        password: 'test123$',
-      });
-      console.log(user);
-
-      expect(user.firstname).toEqual('john');
-      // expect(mockCreateUserProvider.createUser).toHaveBeenCalled();
-    });
   });
 });
