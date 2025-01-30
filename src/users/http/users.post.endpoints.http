@@ -1,11 +1,10 @@
 POST http:localhost:3000/users
 Content-Type: application/json
-Authorization: Bearer
 
 {
   "firstname": "Mark",
   "lastname": "Melly",
-  "email": "Melly@mail.com",
+  "email": "MellKay+6@mail.com",
   "password": ""
 }
 
