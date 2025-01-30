@@ -32,6 +32,12 @@
 $ npm install
 ```
 
+Use this to generate file migration file, wheere publicItem is the name of the migration
+
+```bash
+$ ts-node ./node_modules/typeorm/cli migration:create ./migrations/PublicItems
+```
+
 ## Compile and run the project
 
 ```bash
